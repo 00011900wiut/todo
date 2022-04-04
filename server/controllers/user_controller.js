@@ -30,3 +30,25 @@ exports.view = (req, res) => {
         });
     });
 };
+
+// Search
+exports.find = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if(err) throw err; // problem occured!
+
+        let search_term = req.body.search;
+        
+        // User connection
+        connection.query('SELECT * FROM user WHERE first_name LIKE ? AND status = "active" OR last_name LIKE ? AND status = "active"', ['%' + search_term + '%', '%' + search_term + '%'], (err, rows) => {
+            // Release it, when done with the connection
+            connection.release();
+
+            if (!err) {
+                res.render('home', { rows })
+            } else {
+                console.log(err); // problem occured!
+            }
+
+        });
+    });
+}
