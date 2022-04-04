@@ -21,6 +21,21 @@ app.use(express.static('public'));
 app.engine('hbs', express_handlebars.engine( {extname: '.hbs'}));
 app.set('view engine', 'hbs');
 
+// Connection port
+const pool = mySql.createPool({
+    connectionLimit : 100,
+    host : process.env.DB_HOST,
+    user : process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database : process.env.DB_NAME
+});
+
+//Connection to DB
+pool.getConnection((err, connection) => {
+    if(err) throw err; // problem occured!
+    console.log('Successfully connected as ID ' + connection.threadId);
+});
+
 // Router
 app.get('', (req, res) => {
     res.render('home');
