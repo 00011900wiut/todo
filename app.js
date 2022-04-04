@@ -8,6 +8,22 @@ require('dotenv').config();
 const app = express();
 const port = 3000;
 
+// Parsing middleware
+app.use(body_parser.urlencoded({ extended: false }));
 
+// Parse application/json
+app.use(body_parser.json());
+
+// static files
+app.use(express.static('public'));
+
+// Templating engine
+app.engine('hbs', express_handlebars.engine( {extname: '.hbs'}));
+app.set('view engine', 'hbs');
+
+// Router
+app.get('', (req, res) => {
+    res.render('home');
+});
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
