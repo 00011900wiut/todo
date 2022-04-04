@@ -156,3 +156,24 @@ exports.delete = (req, res) => {
         });
     });
 }
+
+// View single user by id
+exports.view_user = (req, res) => {
+
+    pool.getConnection((err, connection) => {
+        if(err) throw err; // problem occured!
+
+        // User connection
+        connection.query('SELECT * FROM user WHERE id = ?',[req.params.id], (err, rows) => {
+            // Release it, when done with the connection
+            connection.release();
+
+            if (!err) {
+                res.render('view_user', { rows })
+            } else {
+                console.log(err); // problem occured!
+            }
+
+        });
+    });
+};
