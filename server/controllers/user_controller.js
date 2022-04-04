@@ -52,7 +52,7 @@ exports.find = (req, res) => {
         });
     });
 }
-
+// opening a add user page
 exports.form = (req, res) => {
     res.render('add_user');
 }
@@ -72,6 +72,63 @@ exports.create = (req, res) => {
 
             if (!err) {
                 res.render('add_user', { alert: "User is added successfully."});
+            } else {
+                console.log(err); // problem occured!
+            }
+
+        });
+    });
+}
+
+// Edit user
+exports.edit = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if(err) throw err; // problem occured!
+
+        // User connection
+        connection.query('SELECT * FROM user WHERE id = ?', [req.params.id], (err, rows) => {
+            // Release it, when done with the connection
+            connection.release();
+
+            if (!err) {
+                res.render('edit_user', { rows })
+            } else {
+                console.log(err); // problem occured!
+            }
+
+        });
+    });
+}
+
+// Update user
+exports.update = (req, res) => {
+    const {first_name, last_name, email, phone, comments} = req.body;
+
+    pool.getConnection((err, connection) => {
+        if(err) throw err; // problem occured!
+
+        // User connection
+        connection.query('UPDATE user SET first_name = ?, last_name = ?, email = ?, phone = ?, comments = ? WHERE id = ?', [first_name, last_name, email, phone, comments, req.params.id], (err, rows) => {
+            // Release it, when done with the connection
+            connection.release();
+
+            if (!err) {
+                pool.getConnection((err, connection) => {
+                    if(err) throw err; // problem occured!
+            
+                    // User connection
+                    connection.query('SELECT * FROM user WHERE id = ?', [req.params.id], (err, rows) => {
+                        // Release it, when done with the connection
+                        connection.release();
+            
+                        if (!err) {
+                            res.render('edit_user', { rows, alert: `${first_name} has been updated`});
+                        } else {
+                            console.log(err); // problem occured!
+                        }
+            
+                    });
+                });
             } else {
                 console.log(err); // problem occured!
             }

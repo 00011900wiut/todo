@@ -6,5 +6,7 @@ router.get('/', user_controller.view);
 router.post('/', user_controller.find);
 router.get('/adduser', user_controller.form);
 router.post('/adduser', user_controller.create);
+router.get('/edituser/:id', user_controller.edit);
+router.post('/edituser/:id', user_controller.update);    
 
 module.exports = router;
