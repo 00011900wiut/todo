@@ -52,3 +52,30 @@ exports.find = (req, res) => {
         });
     });
 }
+
+exports.form = (req, res) => {
+    res.render('add_user');
+}
+
+// Add new user
+exports.create = (req, res) => {
+    const {first_name, last_name, email, phone, comments} = req.body;
+    pool.getConnection((err, connection) => {
+        if(err) throw err; // problem occured!
+
+        let search_term = req.body.search;
+        
+        // User connection
+        connection.query('INSERT INTO user SET first_name = ?, last_name = ?, email = ?, phone = ?, comments = ?',[first_name, last_name, email, phone, comments],(err, rows) => {
+            // Release it, when done with the connection
+            connection.release();
+
+            if (!err) {
+                res.render('add_user', { alert: "User is added successfully."});
+            } else {
+                console.log(err); // problem occured!
+            }
+
+        });
+    });
+}
