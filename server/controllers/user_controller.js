@@ -136,3 +136,23 @@ exports.update = (req, res) => {
         });
     });
 }
+
+// Delete user
+exports.delete = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if(err) throw err; // problem occured!
+
+        // User connection
+        connection.query('DELETE FROM user WHERE id = ?', [req.params.id], (err, rows) => {
+            // Release it, when done with the connection
+            connection.release();
+
+            if (!err) {
+                res.redirect('/');
+            } else {
+                console.log(err); // problem occured!
+            }
+
+        });
+    });
+}
