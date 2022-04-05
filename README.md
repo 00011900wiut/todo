@@ -21,3 +21,7 @@ Dependency list
 Comment: I used express-handlebars instead of express, because i find them easier to use.
 
 GitHub Link: https://github.com/00011900wiut/todo
+
+Comment: I tried to upload my data on glitch, but problem occured because I used mysql as database (could not solve it). When I tried to use other hosting websites, they wanted payment for sql websites
+
+Glitch Link: https://booming-chivalrous-afrovenator.glitch.me/
