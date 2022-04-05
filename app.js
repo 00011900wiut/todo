@@ -3,7 +3,6 @@ const express_handlebars = require('express-handlebars');
 const body_parser = require('body-parser');
 const mySql = require('mysql');
 
-require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,13 +21,23 @@ app.engine('hbs', express_handlebars.engine( {extname: '.hbs'}));
 app.set('view engine', 'hbs');
 
 // Connection port
+// const pool = mySql.createPool({
+//     connectionLimit : 100,
+//     host : process.env.DB_HOST,
+//     user : process.env.DB_USER,
+//     password: process.env.DB_PASS,
+//     database : process.env.DB_NAME
+// });
+
+
 const pool = mySql.createPool({
     connectionLimit : 100,
-    host : process.env.DB_HOST,
-    user : process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database : process.env.DB_NAME
+    host : "localhost",
+    user : "Kosimkhon",
+    password: "916551167",
+    database : "user_manager_db"
 });
+
 
 //Connection to DB
 pool.getConnection((err, connection) => {
