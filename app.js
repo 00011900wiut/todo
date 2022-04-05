@@ -3,6 +3,7 @@ const express_handlebars = require('express-handlebars');
 const body_parser = require('body-parser');
 const mySql = require('mysql');
 
+require('dotenv').config();
 
 const app = express();
 const port = 3000;
@@ -32,10 +33,10 @@ app.set('view engine', 'hbs');
 
 const pool = mySql.createPool({
     connectionLimit : 100,
-    host : "localhost",
-    user : "Kosimkhon",
-    password: "916551167",
-    database : "user_manager_db"
+    host : process.env.DB_HOST,
+    user : process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database : process.env.DB_NAME
 });
 
 
